@@ -8,15 +8,18 @@
     <br>
     <small id="question_upvotes" class="btn {% if question_upvoted %}btn-success{% else %}btn-primary{% endif %}" onclick="do_upvote_ajax('question', '{{ question.id }}', this)"><span class="upvote_number">{{ question.upvote }}</span> upvote{% if question.upvote > 1 %}s{% endif %}&uArr;</small>
     {% if question.category %} 
-    <small id="question_category" >Category: <a href="{% url 'view_category' question.category %}">{{ question.category.category }}</a> 
-    {% endif %}</small>
+    <small id="question_category" >Category: <a href="{% url 'view_category' question.category %}">{{ question.category.category }}</a></small> 
+    {% endif %}
+    {% if request.user.username == question.author.username %}
+    <small> | <a href="{% url 'question_action_param' 'edit' question.id %}">Edit Question</a></small>
+    {% endif %}
     <hr>
     {% if answers %}
     <div class="container">
         <h4 class="font-weight-bold">Answers &raquo;</h4>
         {% for answer in answers %}
             {% with answer.id as answer_id %}
-            {{ answer.answer }}<br><small>&nbsp;&nbsp;by {{ answer.author.username }} on {{ answer.time }}</small>
+            {{ answer.answer }}<br><small>&nbsp;&nbsp;by <a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a> on {{ answer.time }}</small>
             <br>
             &nbsp;&nbsp;<small id="answer_upvotes_{{ answer_id }}" class="btn {% if answer_id in upvoted_answers %}btn-success{% else %}btn-primary{% endif %} btn-sm" style="padding: 5px;" onclick="do_upvote_ajax('answer', '{{ answer.id }}', this)" ><span class="upvote_number">{{ answer.upvote }}</span> upvote{% if answer.upvote > 1 %}s{% endif %} &uArr;</small>
             <hr>

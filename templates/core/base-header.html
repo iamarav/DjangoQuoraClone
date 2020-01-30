@@ -21,12 +21,20 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Services</a>
           </li>
-          <li class="nav-item">
-            {% if request.user.id %}
-            <a class="nav-link" href="{% url 'logout_page' %}">Logout ({{ request.user.username }})</a>
-            {% else %}
+          {% if request.user.id %}
+          <li class="nav-item dropdown">        
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ request.user.username }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'profile_page' request.user.username %}">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout_page' %}">Logout</a>
+            </div>
+          {% else %}
+          <li class="nav-item dropdown">
             <a class="nav-link" href="{% url 'login_page' %}">Login</a>
-            {% endif %}
+          {% endif %}
           </li>
         </ul>
       </div>
