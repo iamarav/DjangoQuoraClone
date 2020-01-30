@@ -4,19 +4,6 @@
 
 
 {% block content %}
-<style>
-#question{
-    background-color: #e5e5e5;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-right: 1px solid #aaa;
-    border-bottom: 1px solid #aaa;
-    margin: 10px;
-    padding: 10px;
-    padding-left: 20px;
-}
-</style>
 <h1>&rarrc;&nbsp;Dashboard&nbsp;<a href="{% url 'question_action' 'add' %}" class="small btn btn-success" >+ Add Question</a></h1> 
 <hr>
 {% if dashMessage %}
@@ -32,7 +19,7 @@
     <div id="questions_asked">
     {% for question in questions_asked %}
         {% with question.id as question_id %}
-        <div id="question" class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div id="question_{{ question_id }}" class="col-lg-9 col-md-9 col-sm-12 col-xs-12 question_container">
             <p class="h3"><a href="{% url 'view_question' question.slug %}" style="color: black !important;" >{{ question.question }}</a>{% if question.anonymous == True %}&nbsp;<span class="h5">(Anonymous)</span>{% endif %}</p>
             <hr>
             <small id="answer_numbers" class="question question_{{ question_id }}" >{{ question_answers_number | get_item:question_id }} answers</small> |
@@ -40,6 +27,9 @@
             <small class="upvotes">{{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %} 
             {% endwith %}</small> |
             <small class="date">{{ question.time }}</small>
+            {% if question.category %} |
+            <small class="question_category">Category: <a href="{% url 'view_category' question.category %}">{{ question.category }}</a></small>
+            {% endif %}
             <div id="question_actions">
                 <span id="edit_question" ><a href="{% url 'question_action_param' 'edit' question_id %}" class="btn btn-warning btn-sm" >Edit</a></span>
                 <span id="delete_question" class="btn btn-danger btn-sm" onclick="confirmDelete( 'question', '{{ question_id }}' )" >Delete</span>

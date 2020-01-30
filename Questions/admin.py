@@ -7,7 +7,7 @@ from .models import *
 
 @admin.register(Questions)
 class QuestionsAdmin (admin.ModelAdmin):
-    list_display = ('question', 'slug', 'author', 'time', 'upvote', 'anonymous')
+    list_display = ('question', 'slug', 'author', 'category', 'time', 'upvote', 'anonymous')
     search_fields = ('question','author',)
 
 @admin.register(QuestionCategory)

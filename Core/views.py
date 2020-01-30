@@ -249,3 +249,11 @@ def DashboardPage(request):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+def UserProfilePage(request, username):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+    }
+    return HttpResponse('Hello '+username)
+    return render( request, 'core/template-dashboard.html', passing_dictionary )

@@ -16,6 +16,24 @@ site_info = settings.SITE_INFO
 LOGIN_URL = settings.LOGIN_URL
 LOGOUT_URL = settings.LOGOUT_URL
 
+def ViewCategoryPage(request, category):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+    }
+    passing_dictionary['category'] = category
+    try:
+        category_instance = QuestionCategory.objects.all().get(category = category)
+        questions_obj = Questions.objects.all().filter(category = category_instance)
+        passing_dictionary['questions'] = questions_obj
+        #     print('\n=======================')
+        #     print (questions_obj)
+        # except:
+        #    passing_dictionary ['errors'] = 'No data found for this category'
+    except:
+        passing_dictionary ['categoryNotFound'] = True
+        passing_dictionary ['errors'] = 'There is some error with your request or with the site. Sorry for the inconvenience.'
+    return render( request, 'core/template-view-category.html', passing_dictionary )
 
 #@login_required( login_url= LOGIN_URL)
 def QuestionsActions(request, action, param = None):

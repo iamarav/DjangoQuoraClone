@@ -1,0 +1,42 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block page_title %}Viewing category: {{ category }}{% endblock %}
+
+{% block content %}
+
+{% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <hr>
+        {% if categoryNotFound %}
+        <p>Category with name <strong>"{{ category }}"</strong> not found.</p>
+        {% endif %}
+        <p>{{ errors }}</p>
+    </div>
+{% else %}
+
+    <h1>Viewing Category: {{ category }}</h1>
+    <hr>
+    {% if questions %}
+        <div class="questions">
+        {% for question in questions %}
+            {% with question.upvote as upvotes %}
+            <div id="question_{{ question.id }}" class="question_container" >
+                <h4><a href="{% url 'view_question' question.slug %}" class="text-dark" >{{ question.question }}</a></h4>
+                <hr>
+                <small>Asked by: <strong><a href="{% url 'profile_page' question.author.username %}">{{ question.author.username }}</a></strong> on {{ question.time }} | {{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small>
+            </div>
+            {% endwith %}
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><strong>Error!</strong></h4>
+            <hr>
+            <p>No post found for Category: <strong>"{{ category }}"</strong></p>
+        </div>
+
+    {% endif %}
+
+{% endif %}
+{% endblock %}

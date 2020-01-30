@@ -5,3 +5,15 @@
 body {
     padding-top: 56px;
   }
+
+.question_container{
+    background-color: #e5e5e5;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-right: 2px solid #aaa;
+    border-bottom: 1.5px solid #aaa;
+    margin: 10px;
+    padding: 10px;
+    padding-left: 20px;
+}

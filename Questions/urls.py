@@ -9,6 +9,7 @@ urlpatterns = [
     path('upvote', views.DoUpvote, name='upvote'),
     path('checkslug', views.CheckSlugWithAjax, name='checkslug'),
     path('addCategory', views.AddCategoryWithAjax, name='checkslug'),
+    path('category/<category>', views.ViewCategoryPage, name='view_category'),
     
     path('<question>', views.ViewQuestion),
     path('<question>/', views.ViewQuestion, name='view_question'),
