@@ -1,0 +1,46 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block content %}
+    
+    <script src="{{ static_url }}js/upvote.js" type="text/javascript"></script>
+    <h1>{{ question.question }}</h1>
+    <small>Asked by {% if question.anonymous == True %}Anonymous{% else %}{{ question.author.username }}{% endif %} on {{ question.time }}</small>
+    <br>
+    <small id="question_upvotes" class="btn {% if question_upvoted %}btn-success{% else %}btn-primary{% endif %}" onclick="do_upvote_ajax('question', '{{ question.id }}', this)"><span class="upvote_number">{{ question.upvote }}</span> upvote{% if question.upvote > 1 %}s{% endif %}&uArr;</small>
+    {% if question.category %} 
+    <small id="question_category" >Category: {{ question.category.category }}
+    {% endif %}</small>
+    <hr>
+    {% if answers %}
+    <div class="container">
+        <h4 class="font-weight-bold">Answers &raquo;</h4>
+        {% for answer in answers %}
+            {% with answer.id as answer_id %}
+            {{ answer.answer }}<br><small>&nbsp;&nbsp;by {{ answer.author.username }} on {{ answer.time }}</small>
+            <br>
+            &nbsp;&nbsp;<small id="answer_upvotes_{{ answer_id }}" class="btn {% if answer_id in upvoted_answers %}btn-success{% else %}btn-primary{% endif %} btn-sm" style="padding: 5px;" onclick="do_upvote_ajax('answer', '{{ answer.id }}', this)" ><span class="upvote_number">{{ answer.upvote }}</span> upvote{% if answer.upvote > 1 %}s{% endif %} &uArr;</small>
+            <hr>
+            {% endwith %}
+        {% endfor %}
+    </div>
+    {% else %}
+        <h4>No Answers yet.</h4>
+    {% endif %}
+
+    {% if request.user.id %}
+    <p>Write an Answer:</p>
+    <form method="POST" action="" >
+        {% csrf_token %}
+        <input type="hidden" name="ques_id" value="{{ question.id }}" />
+        <div class="form-group">
+            <textarea class="form-control col-lg-9 col-md-10 col-sm-12 col-xs-12" name="new_answer" placeholder="" ></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" />
+        </div>
+    </form>
+    {% else %}
+    <p>Login to write an answer... <a href="{% url 'login_page' %}">Click here to continue</a></p>
+    {% endif %}
+    <script type="text/javascript" src="{{ static_url }}vendor/jquery/jquery.min.js" ></script>
+{% endblock %}

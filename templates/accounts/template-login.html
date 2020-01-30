@@ -1,0 +1,57 @@
+<link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="{{ static_url }}vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+<div class="container">
+<br>
+<!-- <p class="text-center"><a href="{{ home_page }}"> Home </a></p>
+<hr>
+ -->
+<div class="row justify-content-center">
+<div class="col-md-6">
+<div class="card">
+<header class="card-header">
+	<a href="{% url 'signup_page' %}" class="float-right btn btn-outline-primary mt-1">Sign Up</a>
+	<h4 class="card-title mt-2">Log in</h4>
+</header>
+<article class="card-body">
+	{% if errors %}
+	<div class="alert alert-danger" role="alert">{{ errors }}</div>
+	{% endif %}
+	{% if success %}
+	<div class="alert alert-success" role="alert">{{ success }}</div>
+	{% endif %}
+	{% if successLogout %}
+	<div class="alert alert-success" role="alert">{{ successLogout }}</div>
+	{% endif %}
+<form method="POST" >
+	{% csrf_token %}
+	<div class="form-group">
+		<label>Email address / Username</label>
+		<input type="text" name="username" class="form-control" placeholder="">
+	</div> <!-- form-group end.// -->
+	
+	<div class="form-group">
+		<label>Enter your password</label>
+	    <input class="form-control" name="password" type="password">
+	</div> <!-- form-group end.// -->  
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+    </div> <!-- form-group// -->                  
+</form>
+</article> <!-- card-body end .// -->
+<div class="border-top card-body text-center">Do not have an account? <a href="{% url 'signup_page' %}">Sign Up</a> | <a href="{% url 'forgot_password_page' %}">Forgot Password</a></div>
+</div> <!-- card.// -->
+</div> <!-- col.//-->
+
+</div> <!-- row.//-->
+
+
+</div> 
+<!--container end.//-->
+
+<br>&nbsp;
+<br>&nbsp;

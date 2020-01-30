@@ -1,0 +1,35 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block content %}
+<style>
+#question{
+    background-color: #ddd;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    padding-left: 20px;
+}
+</style>
+<h1>Dashboard</h1>
+<hr>
+
+{% if questions_asked %}
+    <div id="questions_asked">
+    {% for question in questions_asked %}
+        {% with question.id as question_id %}
+        <div id="question" class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <p class="h3"><a href="{% url 'view_question' question.slug %}" style="color: black !important;" >{{ question.question }}</a></p>
+            <small id="answer_numbers" class="question question_{{ question_id }}" >{{ question_answers_number.question_id }}</small>
+            <small class="date">{{ question.time }}</small>  
+        </div>
+        {% endwith %}
+    {% endfor %}
+    </div>    
+
+    {% else %}
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,88 @@
+<link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="{{ static_url }}vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+<div class="container">
+<br>
+<!-- <p class="text-center"><a href="{{ home_page }}"> Home </a></p>
+<hr>
+ -->
+<div class="row justify-content-center">
+<div class="col-md-6">
+<div class="card">
+<header class="card-header">
+	<a href="{% url 'login_page' %}" class="float-right btn btn-outline-primary mt-1">Log in</a>
+	<h4 class="card-title mt-2">Sign up</h4>
+</header>
+<article class="card-body">
+	{% if errors %}
+	<div class="alert alert-danger" role="alert">{{ errors }}</div>
+	{% endif %}
+<form method="POST" action="{% url 'signup_page' %}">
+	{% csrf_token %}
+	<div class="form-row">
+		<div class="col form-group">
+			<label>First name </label>   
+		  	<input type="text" name = "fname" class="form-control" placeholder="">
+		</div> <!-- form-group end.// -->
+		<div class="col form-group">
+			<label>Last name</label>
+		  	<input type="text" name = "lname" class="form-control" placeholder=" ">
+		</div> <!-- form-group end.// -->
+	</div> <!-- form-row end.// -->
+	<div class="form-group">
+		<label>Email address</label>
+		<input type="email" name="username"  class="form-control" placeholder="" required>
+		<small class="form-text text-muted">We'll never share your email with anyone else.</small>
+	</div> <!-- form-group end.// -->
+	
+	<div class="form-row">
+		<div class="form-group col-md-6">
+		  <label>City</label>
+		  <input type="text" class="form-control">
+		</div> <!-- form-group end.// -->
+		<div class="form-group col-md-6">
+		  <label>Country</label>
+		  <select id="inputState" class="form-control">
+		    <option> Choose...</option>
+		      <option>China</option>
+		      <option>Russia</option>
+		      <option selected>India</option>
+		      <option>United States</option>
+		      <option>United Kingdom</option>
+		  </select>
+		</div> <!-- form-group end.// -->
+	</div> 
+	<!-- form-row.// -->
+	<div class="form-group">
+		<label>Create password</label>
+	    <input class="form-control" name="password1" type="password" required>
+	</div> 
+	<!-- form-group end.// -->  
+	<!-- form-row.// -->
+	<div class="form-group">
+		<label>Confirm password</label>
+	    <input class="form-control" name="password2" type="password" required >
+	</div> 
+	<!-- form-group end.// -->  
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary btn-block" value="Register" >
+    </div> <!-- form-group// -->      
+    <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>                                          
+</form>
+</article> <!-- card-body end .// -->
+<div class="border-top card-body text-center">Have an account? <a href="{% url 'login_page' %}">Log In</a></div>
+</div> <!-- card.// -->
+</div> <!-- col.//-->
+
+</div> <!-- row.//-->
+
+
+</div> 
+<!--container end.//-->
+
+<br>&nbsp;
+<br>&nbsp;

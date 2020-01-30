@@ -1,0 +1,48 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block content %}
+{% if action == "edit" %}<h1>Editing Question</h1>{% endif %}
+{% if action == "add" %}<h1>Ask a Question</h1>{% endif %}
+
+<hr>
+<style>
+    #question{
+        padding-left: 3%; padding-right: 3%; padding-top: 2%; padding-bottom: 2%;
+        border: 2px solid black;
+    }
+    #question:hover, #question_category:hover{
+        border: 2px solid blue;
+    }
+    #question:focus, #question_category:focus{
+        border: 2px dashed green;
+    }
+</style>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="act" id="act" value="{{ action }}" />
+    <div class="form-group">
+        <label for = "question">Enter your question below</label><br>
+        <input type="text" class="form-control col-sm-9 col-md-9 col-lg-9" name="question" id="question" placeholder="e.g. How to cook yummy pasta?" value="{{ question.question }}" maxlength="100" minlength="1" required >
+    </div>
+    <div class="form-group">
+        <label for="question_slug">Question Slug</label>
+        <input type="text" class="form-control col-sm-6 col-md-9 col-lg-9" name="slug" id="question_slug" value="{{ question.slug }}" readonly minlength="1"> 
+    </div>
+    <div class="form-group">
+        <label for="question_category">{% if action == 'add' %}Select a {% endif %}Question Category</label> <button class="btn btn-primary btn-sm" onclick="return addCategory()">+ Add Category</button>
+        <select name="category" id="question_category" class="form-control col-sm-4" >
+            {% for category in categories %}
+            <option id="opt_{{ category }}" name="{{ category }}"{% if category == question.category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" >
+    </div>
+</form>
+
+<script type="text/javascript" src="{{ static_url }}vendor/jquery/jquery.min.js" ></script>
+<script src="{{ static_url }}js/question-slug.js" type="text/javascript" ></script>
+
+{% endblock %}
