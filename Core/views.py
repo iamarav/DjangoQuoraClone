@@ -255,5 +255,11 @@ def UserProfilePage(request, username):
         'media_url': media_url,
         'static_url': static,
     }
-    return HttpResponse('Hello '+username)
-    return render( request, 'core/template-dashboard.html', passing_dictionary )
+    user = User.objects.all().get(username = username)
+    passing_dictionary ['user'] = user
+    questions = Questions.objects.all().filter(author = user.id).exclude(anonymous = True)
+    passing_dictionary ['questions_asked'] = questions
+    passing_dictionary ['questions_asked_number'] = questions.count()
+    passing_dictionary ['answers_answered'] = Answers.objects.all().filter(author = user.id).count()
+
+    return render( request, 'core/template-user-profile.html', passing_dictionary )

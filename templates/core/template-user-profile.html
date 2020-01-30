@@ -1,0 +1,48 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block page_title %}
+{% if user.first_name == "" or user.last_name == "" %}
+    {{ user.username }}
+{% else %}
+    {{ user.first_name }} {{ user.last_name }}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if user.first_name == "" or user.last_name == "" %}
+    <h1>{{ user.username }}</h1>
+{% else %}
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+{% endif %}
+<hr>
+<div id="contact">
+    <!-- <h3>Username: </h3> -->
+    <table class="table table-borderless table-hover col-sm-12 col-md-12 col-lg-9">
+        <tr>
+            <td>Username</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{% if user.email == "" %}N/A{% else %}{{ user.email }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td>{{ questions_asked_number }} questions asked</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ answers_answered }} answers answered</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<hr>
+<hr>
+
+{% if questions_asked %}
+    <p>Questions Asked:</p>
+    {% for question in questions_asked %}
+        <h3>&#8227; <a href="{% url 'view_question' question.slug %}" class="text-dark" >{{ question.question }}</a></h3>
+    {% endfor %}
+{% endif %}
+{% endblock %}
