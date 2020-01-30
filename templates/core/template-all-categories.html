@@ -1,0 +1,16 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block page_title %}All Categories{% endblock %}
+
+{% block content %}
+<h1>All Categories</h1>
+<hr>
+
+{% if categories %}
+    {% for category in categories %}
+        <h2>&#8226; <a href="{% url 'view_category' category %}" class="text-dark" >{{ category }}</a></h2>
+    {% endfor %}
+{% endif %}
+
+
+{% endblock %}

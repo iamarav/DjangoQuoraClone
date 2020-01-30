@@ -10,6 +10,7 @@ urlpatterns = [
     path('checkslug', views.CheckSlugWithAjax, name='checkslug'),
     path('addCategory', views.AddCategoryWithAjax, name='checkslug'),
     path('category/<category>', views.ViewCategoryPage, name='view_category'),
+    path('categories/', views.ViewAllCategories, name='view_all_categories'),
     
     path('<question>', views.ViewQuestion),
     path('<question>/', views.ViewQuestion, name='view_question'),

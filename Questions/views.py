@@ -26,16 +26,21 @@ def ViewCategoryPage(request, category):
         category_instance = QuestionCategory.objects.all().get(category = category)
         questions_obj = Questions.objects.all().filter(category = category_instance)
         passing_dictionary['questions'] = questions_obj
-        #     print('\n=======================')
-        #     print (questions_obj)
-        # except:
-        #    passing_dictionary ['errors'] = 'No data found for this category'
     except:
         passing_dictionary ['categoryNotFound'] = True
         passing_dictionary ['errors'] = 'There is some error with your request or with the site. Sorry for the inconvenience.'
     return render( request, 'core/template-view-category.html', passing_dictionary )
 
-#@login_required( login_url= LOGIN_URL)
+def ViewAllCategories(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+    }
+    passing_dictionary['categories'] = QuestionCategory.objects.all()
+    return render( request, 'core/template-all-categories.html', passing_dictionary )
+    
+
+@login_required( login_url= LOGIN_URL)
 def QuestionsActions(request, action, param = None):
     passing_dictionary = {
         'media_url': media_url,
@@ -120,10 +125,6 @@ def QuestionsActions(request, action, param = None):
             return redirect ( redir_url )
         passing_dictionary ['action'] = action                
         return render( request, 'core/template-mod-question.html', passing_dictionary )
-    # if action == "edit" and param is not None:
-    #     return HttpResponse('Edit')
-    # if action == "view" and param is not None:
-    #     return HttpResponse('View')
     if action == "delete" and param is not None:
         if '@' in param:
             param = param.split('@')
@@ -199,7 +200,7 @@ def ViewQuestion(request, question):
     # print(passing_dictionary)
     return render( request, 'core/template-view-question.html', passing_dictionary)
 
-#@login_required( login_url= LOGIN_URL)
+@login_required( login_url= LOGIN_URL)
 def DoUpvote(request):
     outputJsonDict = {}
     if 'type' in request.GET and request.GET['type'] != "":
