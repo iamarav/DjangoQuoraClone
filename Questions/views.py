@@ -41,6 +41,7 @@ def QuestionsActions(request, action, param = None):
                     if request.method == 'POST':
                         # data received for the question
                         question_category = request.POST["category"]
+                        
                         try:
                             category_instance = QuestionCategory.objects.get(category = question_category)
                         except QuestionCategory.DoesNotExist:
@@ -56,6 +57,11 @@ def QuestionsActions(request, action, param = None):
                         question_obj.question = request.POST["question"]                                                 
                         question_obj.category = category_instance
                         question_obj.slug = request.POST["slug"]
+
+                        if( 'anonymous' in request.POST and request.POST['anonymous'] != False):
+                            question_obj.anonymous = True
+                        else:
+                            question_obj.anonymous = False
 
                         question_obj.save()
                         redir_url =  '/'+ request.POST['slug'] 
@@ -78,11 +84,17 @@ def QuestionsActions(request, action, param = None):
                 except QuestionCategory.DoesNotExist: 
                     return HttpResponse ('There might be some error with the site.')
             
+            if( 'anonymous' in request.POST and request.POST['anonymous'] != False):
+                anonymous = True
+            else:
+                anonymous = False
+                
             new_question_obj = Questions.objects.create( 
                                     question = request.POST["question"], 
                                     author = request.user,
                                     category = category_instance,
-                                    slug = request.POST["slug"]
+                                    slug = request.POST["slug"],
+                                    anonymous = anonymous
                                  )    
             #redir_url =  request.get_host() +'/'+ request.POST['slug'] 
             redir_url =  '/'+ request.POST['slug'] 
@@ -95,7 +107,26 @@ def QuestionsActions(request, action, param = None):
     # if action == "view" and param is not None:
     #     return HttpResponse('View')
     if action == "delete" and param is not None:
-        return HttpResponse('Delete')
+        if '@' in param:
+            param = param.split('@')
+            delete_type = param[0].lower()
+            delete_id = param[1]
+            if delete_type == 'question':
+                obj = Questions.objects.get(id = delete_id)
+                request.session['dashMessage'] = 'Question deletion Success!' # message
+                obj.delete()
+                return HttpResponseRedirect('/dashboard')
+            elif delete_type == 'answer':
+                obj = Answers.objects.get(id = delete_id)
+                obj.delete()
+                return HttpResponseRedirect('/dashboard')
+            elif delete_type == 'category':
+                obj = Answers.objects.get(id = delete_id)
+                obj.delete()
+                return HttpResponseRedirect('/dashboard')            
+            else:
+                raise Http404()
+
     else: 
         raise Http404()
 

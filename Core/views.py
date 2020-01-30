@@ -17,6 +17,8 @@ from django.utils.crypto import get_random_string
 from Questions.models import *
 import json
 
+from django.template.defaulttags import register
+
 
 # Define Global variables here
 media_url = settings.MEDIA_URL
@@ -224,6 +226,12 @@ def DashboardPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if 'dashMessage' in request.session:
+        # display message of successful logout if exists.
+        passing_dictionary ['dashMessage'] = request.session['dashMessage']
+        del request.session['dashMessage']
+        request.session.modified = True
+
     questions_asked = Questions.objects.all().filter(author = request.user)
 
     question_answers_number = {}
@@ -236,3 +244,8 @@ def DashboardPage(request):
 
     passing_dictionary['questions_asked'] = questions_asked
     return render( request, 'core/template-dashboard.html', passing_dictionary )
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

@@ -1,28 +1,49 @@
 {% extends 'core/base-theme-template.html' %}
 
+{% block page_title %}Dashboard{% endblock %}
+
+
 {% block content %}
 <style>
 #question{
-    background-color: #ddd;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background-color: #e5e5e5;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     margin: 10px;
     padding: 10px;
     padding-left: 20px;
 }
 </style>
-<h1>Dashboard</h1>
+<h1>&rarrc;&nbsp;Dashboard&nbsp;<a href="{% url 'question_action' 'add' %}" class="small btn btn-success" >+ Add Question</a></h1> 
 <hr>
+{% if dashMessage %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="dashMessage">
+        <strong>{{ dashMessage }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+{% endif %}
 
 {% if questions_asked %}
     <div id="questions_asked">
     {% for question in questions_asked %}
         {% with question.id as question_id %}
         <div id="question" class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <p class="h3"><a href="{% url 'view_question' question.slug %}" style="color: black !important;" >{{ question.question }}</a></p>
-            <small id="answer_numbers" class="question question_{{ question_id }}" >{{ question_answers_number.question_id }}</small>
-            <small class="date">{{ question.time }}</small>  
+            <p class="h3"><a href="{% url 'view_question' question.slug %}" style="color: black !important;" >{{ question.question }}</a>{% if question.anonymous == True %}&nbsp;<span class="h5">(Anonymous)</span>{% endif %}</p>
+            <hr>
+            <small id="answer_numbers" class="question question_{{ question_id }}" >{{ question_answers_number | get_item:question_id }} answers</small> |
+            {% with question.upvote as upvotes %}
+            <small class="upvotes">{{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %} 
+            {% endwith %}</small> |
+            <small class="date">{{ question.time }}</small>
+            <div id="question_actions">
+                <span id="edit_question" ><a href="{% url 'question_action_param' 'edit' question_id %}" class="btn btn-warning btn-sm" >Edit</a></span>
+                <span id="delete_question" class="btn btn-danger btn-sm" onclick="confirmDelete( 'question', '{{ question_id }}' )" >Delete</span>
+            </div>
         </div>
         {% endwith %}
     {% endfor %}
@@ -30,6 +51,18 @@
 
     {% else %}
 {% endif %}
+
+<script type="text/javascript">
+    function confirmDelete( type, param ){
+        if ( type == 'question' ){
+            var response = confirm ('Are you sure you want to delete question?', false);
+            if ( response ){
+                window.location.href = "{% url 'question_action' 'delete' %}"+type+'@'+param;
+            }
+            console.log(response)
+        }
+    }
+</script>
 
 
 {% endblock %}
