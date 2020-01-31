@@ -140,6 +140,8 @@ def QuestionsActions(request, action, param = None):
             elif delete_type == 'answer':
                 obj = Answers.objects.get(id = delete_id)
                 obj.delete()
+                if 'next' in request.GET:
+                    return redirect( request.GET['next'] , status =302 )
                 return HttpResponseRedirect('/dashboard')
             elif delete_type == 'category':
                 obj = Answers.objects.get(id = delete_id)
@@ -351,3 +353,32 @@ def AddCategoryWithAjax(request):
         outputJsonDict['code'] = 'error'
         outputJsonDict['message'] = 'Invalid or No Params.'
         return JsonResponse(outputJsonDict)
+
+@csrf_exempt
+def AjaxHandler(request):
+    data = {}
+    if 'action' in request.GET:
+        action = request.GET['action']
+        if action == 'editAnswer' and 'ansId' in request.POST:
+            # time to edit the answer
+            ansId = request.POST['ansId']
+            print (ansId)
+            data ['id'] = ansId
+            answer_object = Answers.objects.all().get(id=ansId)
+            answer_object.answer = request.POST['answer']
+            if 'anonymous' in request.POST and request.POST['anonymous'] == 'true' or request.POST['anonymous'] == True:
+                now_anonymous = True
+            else:
+                now_anonymous = False                
+            
+            answer_object.anonymous = now_anonymous
+            answer_object.save()
+            data['code'] = 'success'
+            data ['new_answer'] = request.POST['answer']
+            data ['anonymous'] = now_anonymous
+
+        return JsonResponse(data)
+    else:
+        data['code'] = 'error'
+        data['message'] = 'No Action in Params'
+    return JsonResponse(data)

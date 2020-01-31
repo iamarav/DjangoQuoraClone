@@ -12,6 +12,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
 from django.utils.crypto import get_random_string
 
 from Questions.models import *
@@ -260,3 +262,7 @@ def UserProfilePage(request, username):
     passing_dictionary ['answers_answered'] = Answers.objects.all().filter(author = user.id).exclude(anonymous = True).count()
 
     return render( request, 'core/template-user-profile.html', passing_dictionary )
+
+
+def DynamicJS(request):
+    return render( request, 'dynamic_scripts/scripts.html', content_type='text/javascript' )

@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
 #    url(r'^test\.css$', views.Testing),
+    url(r'^dynamic-script.js$', views.DynamicJS, name='dynamic_script'),
     path('', views.HomePage, name='home_page'),
     path('dashboard/', views.DashboardPage, name='dashboard_page'),
     path('dashboard', views.DashboardPage),

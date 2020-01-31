@@ -1,8 +1,3 @@
-jQuery(document).ready(function(){
-    console.log('jQuery is Working')
-});
-
-
 function do_upvote_ajax(type, id, element){
     var ajax_url = window.location.protocol+"//"+window.location.hostname;
     if (window.location.port != "" && window.location.port != undefined){

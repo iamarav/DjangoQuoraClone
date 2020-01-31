@@ -42,17 +42,7 @@
     {% else %}
 {% endif %}
 
-<script type="text/javascript">
-    function confirmDelete( type, param ){
-        if ( type == 'question' ){
-            var response = confirm ('Are you sure you want to delete question?', false);
-            if ( response ){
-                window.location.href = "{% url 'question_action' 'delete' %}"+type+'@'+param;
-            }
-            console.log(response)
-        }
-    }
-</script>
+<script type="text/javascript" src="{% url 'dynamic_script' %}" ></script>
 
 
 {% endblock %}
