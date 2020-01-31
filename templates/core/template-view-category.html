@@ -10,12 +10,15 @@
         <hr>
         {% if categoryNotFound %}
         <p>Category with name <strong>"{{ category }}"</strong> not found.</p>
+        <p>Check other categories from <a href="{% url 'view_all_categories' %}">All Categories</a></p>
+
         {% endif %}
         <p>{{ errors }}</p>
+        
     </div>
 {% else %}
 
-    <h1>Viewing Category: {{ category }}</h1>
+    <h1>Viewing Category: {{ category }} <a href="{% url 'view_all_categories' %}" class="btn btn-primary btn-sm" >View All Categories</a></h1> 
     <hr>
     {% if questions %}
         <div class="questions">
@@ -33,7 +36,8 @@
         <div class="alert alert-warning" role="alert">
             <h4 class="alert-heading"><strong>Error!</strong></h4>
             <hr>
-            <p>No post found for Category: <strong>"{{ category }}"</strong></p>
+            <p>Nothing found for Category: <strong>"{{ category }}"</strong>.</p>
+            <p>Check other categories from <a href="{% url 'view_all_categories' %}">All Categories</a></p>
         </div>
 
     {% endif %}

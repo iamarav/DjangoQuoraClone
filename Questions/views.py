@@ -34,7 +34,14 @@ def ViewAllCategories(request):
     passing_dictionary = {
         'media_url': media_url,
     }
-    passing_dictionary['categories'] = QuestionCategory.objects.all()
+    category_question_number = {}
+    categories_object = QuestionCategory.objects.all()
+    for category in categories_object:
+        temp_obj = Questions.objects.all().filter(category = category)
+        category_question_number [ category.category ] = len(temp_obj)
+    print ('\n==================')
+    print (category_question_number)
+    passing_dictionary['categories'] = category_question_number
     return render( request, 'core/template-all-categories.html', passing_dictionary )
     
 

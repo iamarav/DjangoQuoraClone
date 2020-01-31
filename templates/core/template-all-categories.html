@@ -7,8 +7,8 @@
 <hr>
 
 {% if categories %}
-    {% for category in categories %}
-        <h2>&#8226; <a href="{% url 'view_category' category %}" class="text-dark" >{{ category }}</a></h2>
+    {% for category, number in categories.items %}
+        <h2>&#8226; <a href="{% url 'view_category' category %}" class="text-dark" >{{ category }} ({{ number }})</a></h2>
     {% endfor %}
 {% endif %}
 

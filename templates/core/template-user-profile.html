@@ -1,7 +1,7 @@
 {% extends 'core/base-theme-template.html' %}
 
 {% block page_title %}
-{% if user.first_name == "" or user.last_name == "" %}
+{% if user.first_name == "" and user.last_name == "" %}
     {{ user.username }}
 {% else %}
     {{ user.first_name }} {{ user.last_name }}
@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user.first_name == "" or user.last_name == "" %}
+{% if user.first_name == "" and user.last_name == "" %}
     <h1>{{ user.username }}</h1>
 {% else %}
     <h1>{{ user.first_name }} {{ user.last_name }}</h1>
