@@ -27,7 +27,7 @@
             <div id="question_{{ question.id }}" class="question_container" >
                 <h4><a href="{% url 'view_question' question.slug %}" class="text-dark" >{{ question.question }}</a></h4>
                 <hr>
-                <small>Asked by: <strong><a href="{% url 'profile_page' question.author.username %}">{{ question.author.username }}</a></strong> on {{ question.time }} | {{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small>
+                <small>Asked by: <strong>{% if question.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' question.author.username %}">{{ question.author.username }}</a>{% endif %}</strong> on {{ question.time }} | {{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small>
             </div>
             {% endwith %}
         {% endfor %}

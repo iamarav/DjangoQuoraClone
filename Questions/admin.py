@@ -18,7 +18,7 @@ class QuestionCategoryAdmin (admin.ModelAdmin):
 
 @admin.register(Answers)
 class AnswersAdmin (admin.ModelAdmin):
-    list_display = ('question', 'answer', 'author', 'time', 'upvote')
+    list_display = ('question', 'answer', 'author', 'time', 'upvote', 'anonymous')
     search_fields = ('question', 'answer', 'author',)
 
 

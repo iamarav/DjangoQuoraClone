@@ -39,8 +39,6 @@ def ViewAllCategories(request):
     for category in categories_object:
         temp_obj = Questions.objects.all().filter(category = category)
         category_question_number [ category.category ] = len(temp_obj)
-    print ('\n==================')
-    print (category_question_number)
     passing_dictionary['categories'] = category_question_number
     return render( request, 'core/template-all-categories.html', passing_dictionary )
     
@@ -162,12 +160,18 @@ def ViewQuestion(request, question):
         new_answer = request.POST['new_answer']
         question_id = request.POST['ques_id']
         current_user = request.user
+            
+        if( 'anonymous' in request.POST and request.POST['anonymous'] != False):
+            anonymous = True
+        else:
+            anonymous = False
 
         if new_answer is not None and question_id is not None and current_user is not None:
             question_instance = Questions.objects.get( id = question_id )
             Answers.objects.create( question = question_instance, 
                                     author = current_user,
-                                    answer = new_answer
+                                    answer = new_answer,
+                                    anonymous = anonymous,
                                  )
         else:
             return HttpResponse("There is some error with your answer. Try Again")

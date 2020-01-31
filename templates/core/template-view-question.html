@@ -21,7 +21,7 @@
         <h4 class="font-weight-bold">Answers &raquo;</h4>
         {% for answer in answers %}
             {% with answer.id as answer_id %}
-            {{ answer.answer }}<br><small>&nbsp;&nbsp;by <a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a> on {{ answer.time }}</small>
+            {{ answer.answer }}<br><small>&nbsp;&nbsp;by {% if answer.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a>{% endif %} on {{ answer.time }}</small>
             <br>
             &nbsp;&nbsp;<small id="answer_upvotes_{{ answer_id }}" class="btn {% if answer_id in upvoted_answers %}btn-success{% else %}btn-primary{% endif %} btn-sm" style="padding: 5px;" onclick="do_upvote_ajax('answer', '{{ answer.id }}', this)" ><span class="upvote_number">{{ answer.upvote }}</span> upvote{% if answer.upvote > 1 %}s{% endif %} &uArr;</small>
             <hr>
@@ -39,6 +39,9 @@
         <input type="hidden" name="ques_id" value="{{ question.id }}" />
         <div class="form-group">
             <textarea class="form-control col-lg-9 col-md-10 col-sm-12 col-xs-12" name="new_answer" placeholder="" ></textarea>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" name="anonymous" id="ans_anonymous" > <small><label for="ans_anonymous">Answer as Anonymous</label></small> 
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" />

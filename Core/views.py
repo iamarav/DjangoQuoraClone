@@ -257,6 +257,6 @@ def UserProfilePage(request, username):
     questions = Questions.objects.all().filter(author = user.id).exclude(anonymous = True)
     passing_dictionary ['questions_asked'] = questions
     passing_dictionary ['questions_asked_number'] = questions.count()
-    passing_dictionary ['answers_answered'] = Answers.objects.all().filter(author = user.id).count()
+    passing_dictionary ['answers_answered'] = Answers.objects.all().filter(author = user.id).exclude(anonymous = True).count()
 
     return render( request, 'core/template-user-profile.html', passing_dictionary )

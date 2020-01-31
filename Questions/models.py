@@ -53,6 +53,7 @@ class Answers(models.Model):
     time = models.DateTimeField( default= timezone.now )
     upvote = models.IntegerField(default=0)
     upvoters = models.TextField(default="", null=True, blank=True)
+    anonymous = models.BooleanField (default= False)
 
     def __str__(self):
         return str(self.id)+": "+self.answer
