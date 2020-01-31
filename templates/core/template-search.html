@@ -1,6 +1,6 @@
 {% extends 'core/base-theme-template.html' %}
 
-{% block page_title %}{% if errors %}{% if searchNotFound %}No Results found for: {{ query }}{% endif %}{% else %}Search Results for: {{ query }}{% endif %}{% endblock %}
+{% block page_title %}{% if searchNotDone %}Search{% else %}Search Results for: {{ query }}{% endif %}{% endblock %}
 
 {% block content %}
 
