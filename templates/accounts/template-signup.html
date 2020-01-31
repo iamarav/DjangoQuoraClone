@@ -1,6 +1,7 @@
-<link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="{{ static_url }}vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+{% load static %}
+<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">

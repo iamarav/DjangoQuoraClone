@@ -1,8 +1,11 @@
 from django.urls import path, include
+from django.conf.urls import url
+
 from . import views
 
 
 urlpatterns = [
+#    url(r'^test\.css$', views.Testing),
     path('', views.HomePage, name='home_page'),
     path('dashboard/', views.DashboardPage, name='dashboard_page'),
     path('dashboard', views.DashboardPage),

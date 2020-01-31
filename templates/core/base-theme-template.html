@@ -1,16 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- <a href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">{% static 'vendor/bootstrap/css/bootstrap.min.css' %}</a> -->
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
   <title>{% block page_title %}{%endblock%}</title>
   <!-- Bootstrap core CSS -->
-  <link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{{ static_url }}css/global.css" rel="stylesheet" />
-  <script src="{{ static_url }}vendor/jquery/jquery.min.js" ></script>
-  <script src="{{ static_url }}vendor/jquery/jquery.slim.min.js" ></script>
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/global.css' %}" rel="stylesheet" />
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}" ></script>
+  <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}" ></script>
 </head>
 
 <body>
@@ -26,8 +29,8 @@
       {% endblock %}
     </div>
   <!-- Bootstrap core JavaScript -->
-  <!-- <script src="{{ static_url }}vendor/jquery/jquery.slim.min.js"></script> -->
-  <script src="{{ static_url }}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script> -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
 

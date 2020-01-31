@@ -28,7 +28,7 @@ SECRET_KEY = 'q^p1g8zs7b7%_ge6#1esml-5ty4zc=z34+^i)^)f-sv*n$lsqi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '10.10.30.45', '127.0.0.1']
 
 
 # Application definition
@@ -138,6 +138,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_URL = '/'
 STATIC_ROOT = BASE_DIR
 
 MEDIA_URL = '/media/'
@@ -163,6 +164,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3030',
+    'http://localhost:8003',
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:3030',

@@ -19,7 +19,6 @@ LOGOUT_URL = settings.LOGOUT_URL
 def ViewCategoryPage(request, category):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
     }
     passing_dictionary['category'] = category
     try:
@@ -34,7 +33,6 @@ def ViewCategoryPage(request, category):
 def ViewAllCategories(request):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
     }
     passing_dictionary['categories'] = QuestionCategory.objects.all()
     return render( request, 'core/template-all-categories.html', passing_dictionary )
@@ -44,7 +42,6 @@ def ViewAllCategories(request):
 def QuestionsActions(request, action, param = None):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
     }
     if action == "add" or action == "edit":
         try:
@@ -152,7 +149,6 @@ def QuestionsActions(request, action, param = None):
 def ViewQuestion(request, question):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
     }
     if request.method == 'POST':
         # if something is posted e.g. answer!

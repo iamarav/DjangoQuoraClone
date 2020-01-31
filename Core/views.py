@@ -32,7 +32,6 @@ LOGOUT_URL = settings.LOGOUT_URL
 def HomePage(request):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
         'home_page_title': 'DjQuora - A Quora Clone for Django Practice',
         'nav_title': 'DjQuora'
     }
@@ -42,7 +41,6 @@ def LoginPage(request):
     passing_dictionary = {
         'media_url': media_url,
         'site_info': site_info,
-        'static_url': static,
     } 
     if request.user.id :
         # send user to dashboard if already logged in 
@@ -95,7 +93,6 @@ def LoginPage(request):
 def SignupPage(request):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
         'site_info': site_info,
     }
     if request.user.id :
@@ -143,7 +140,6 @@ def SignupPage(request):
 def ForgotPassword(request, action=None):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
         'site_info': site_info,
     }
     if action == 'checkemail':
@@ -182,19 +178,22 @@ def ForgotPassword(request, action=None):
                         else:
                             log = ForgotLog.objects.filter(username = user.username).order_by('-id')[:1][0]
                         # passing_dictionary['errors'] = log.date
-                        log_date = log.date 
-                        now = timezone.now()
-
-                        if now-timedelta(hours=24) <= log_date <= now+timedelta(hours=24):
-                            # the token generation date is in last 24 hours
-                            print ('OK!')
-                            user.set_password(password1)
-                            user.save()
-                            log.delete()
-                            return HttpResponseRedirect ('/user/login')
-                        else:
+                        if log.token != request.POST['token']:
                             passing_dictionary ['errors'] = 'Invalid Token!'
-                            print ('Entering a token which is generated before 24 hours!')
+                        else:
+                            log_date = log.date 
+                            now = timezone.now()
+
+                            if now-timedelta(hours=24) <= log_date <= now+timedelta(hours=24):
+                                # the token generation date is in last 24 hours
+                                print ('OK!')
+                                user.set_password(password1)
+                                user.save()
+                                log.delete()
+                                return HttpResponseRedirect ('/user/login')
+                            else:
+                                passing_dictionary ['errors'] = 'Invalid Token!'
+                                print ('Entering a token which is generated before 24 hours!')
                     except ForgotLog.DoesNotExist:
                         # No token found
                         passing_dictionary['errors'] = 'Invalid Combination! Try again.'
@@ -223,7 +222,6 @@ def Logout(request):
 def DashboardPage(request):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
         'site_info': site_info,
     }
     if 'dashMessage' in request.session:
@@ -253,7 +251,6 @@ def get_item(dictionary, key):
 def UserProfilePage(request, username):
     passing_dictionary = {
         'media_url': media_url,
-        'static_url': static,
     }
     user = User.objects.all().get(username = username)
     passing_dictionary ['user'] = user
