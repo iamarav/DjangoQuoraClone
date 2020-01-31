@@ -6,7 +6,7 @@ body {
     padding-top: 56px;
   }
 
-.question_container{
+  .question_container{
     background-color: #e5e5e5;
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -16,4 +16,30 @@ body {
     margin: 10px;
     padding: 10px;
     padding-left: 20px;
+}
+
+.answer_container{
+    background-color: #f9f9f9;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-right: 1.5px solid #777;
+    border-bottom: 1.5px solid #777;
+    margin: 10px;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+.search_field{
+    border: none;
+    border-bottom: 3px dodgerblue solid;
+    padding: 1%;
+    font-size: 3em;
+    text-align: center;
+}
+
+.search_field:focus{
+    border: none;
+    border-bottom: 3px green solid;
+    outline:none !important;
 }

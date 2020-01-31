@@ -1,0 +1,63 @@
+{% extends 'core/base-theme-template.html' %}
+
+{% block page_title %}{% if errors %}{% if searchNotFound %}No Results found for: {{ query }}{% endif %}{% else %}Search Results for: {{ query }}{% endif %}{% endblock %}
+
+{% block content %}
+
+{% if searchNotDone %}
+    <h1>Search</h1>
+    <hr>
+    <form action="" method="GET" >
+        
+        <input type="text" name="q"  class="col-12 search_field" placeholder="Enter your query here..." required>
+        <br>&nbsp;
+        <br>
+        <div class="text-center">
+            <input type="submit" value="Search" class="btn btn-primary col-md-6 col-sm-12 btn-lg" >
+        </div>
+    </form>
+{% else %}
+    <h1>Search Results for: {{ query }}</h1> 
+    <hr>
+<div class="row">
+    <div id="questions_results" class="col-md-6 col-sm-12"><h2>Questions: </h2>
+    {% if questions_results %}
+        <div class="questions">
+        {% for question in questions_results %}
+            {% with question.upvote as upvotes %}
+            <div id="question_{{ question.id }}" class="question_container" >
+                <h4><a href="{% url 'view_question' question.slug %}" class="text-dark" >{{ question.question }}</a></h4>
+                <small>Asked by: <strong>{% if question.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' question.author.username %}">{{ question.author.username }}</a>{% endif %}</strong> on {{ question.time }} | {{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small>
+            </div>
+            {% endwith %}
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><strong>No Questions!</strong></h4>
+        </div>
+    {% endif %}
+    </div>
+
+    <div id="answers_results" class="col-md-6 col-sm-12"><h2>Answers: </h2>
+        {% if answers_results %}
+            <div class="questions">
+            {% for answer in answers_results %}
+                {% with answer.upvote as upvotes %}
+                <div id="answer_{{ answer.id }}" class="answer_container" >
+                    <h4><a href="{% url 'view_question' answer.question.slug %}" class="text-dark" >{{ answer.answer }}</a></h4>
+                    <small>in "<a href="{% url 'view_question' answer.question.slug %}" class="text-dark" >{{ answer.question.question }}</a>"</small> <small>| {{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small><br>
+                    <small>Answered by: <strong>{% if answer.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a>{% endif %}</strong> on {{ answer.time }}</small>
+                </div>
+                {% endwith %}
+            {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading"><strong>No Answers found!</strong></h4>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

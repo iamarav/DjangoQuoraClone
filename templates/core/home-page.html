@@ -30,8 +30,16 @@
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
       <h1 class="display-3">A Warm Welcome!</h1>
-      <p class="lead">Ask a question here.</p>
-      <a href="{% url 'question_action' 'add' %}" class="btn btn-primary btn-lg">Ask a Question</a>
+      <p class="lead">Search here for questions or responses by other users or add a new question.</p>
+      <div id="home_search">
+        <form action="{% url 'search_handler' %}" method="GET" >
+          <div class="row">
+              <input type="text" name="q"  class="form-control col-md-8 search_field" placeholder="Search here..." required>
+              <input type="submit" value="Search" class="btn btn-primary col-md-2 col-sm-2" >
+              <a href="{% url 'question_action' 'add' %}" class="col-sm-2 col-md-2 btn btn-success">Ask a Question</a>
+            </div>
+        </form>
+      </div>
       {% if not request.user.id %}<a href="{% url 'signup_page' %}" class="btn btn-success btn-lg">Signup</a>{% endif %}
     </header>
 

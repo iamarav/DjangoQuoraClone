@@ -1,0 +1,58 @@
+function confirmDelete( type, param ){
+    if ( type == 'question' ){
+        var response = confirm ('Are you sure you want to delete question?', false);
+        if ( response ){
+            window.location.href = "{% url 'question_action' 'delete' %}"+type+'@'+param;
+        }
+    }
+    else if ( type == 'answer' ){
+        var response = confirm ('Are you sure you want to delete answer?', false);
+        if ( response ){
+            window.location.href = "{% url 'question_action' 'delete' %}"+type+'@'+param+'?next='+location.pathname;
+        }
+    }
+}
+
+function editAnswer( ansId, anonymous = false ){
+    text = jQuery('#answer_'+ansId ).text();
+    
+    jQuery('#the_answer').val(text);
+    jQuery('#ansId').val(ansId);
+    if ( anonymous ){
+        jQuery('#the_anonymous').attr('checked', true);
+    }
+    else{
+        jQuery('#the_anonymous').attr('checked', true);
+        jQuery('#the_anonymous').removeAttr('checked');
+    }
+    // jQuery('#modal_text').text('Editing Answer: '+ansId);
+    jQuery('#modal_text').text('Editing Answer');
+    jQuery("#editAnswer").modal();
+}
+jQuery(document).ready(function(){
+    jQuery('#editAnsWithAjax').click(function(){
+        var ajax_url = window.location.protocol+"//"+window.location.hostname;
+        if (window.location.port != "" && window.location.port != undefined){
+            ajax_url += ":"+window.location.port;
+        }
+        ajax_url += '/ajax?action=editAnswer';
+
+        var now_anonymous = jQuery('#the_anonymous').prop('checked') ? true : false;
+
+        jQuery.ajax({
+            url : ajax_url, // AJAX handler
+            data : {
+                ansId: jQuery('#ansId').val(),
+                answer: jQuery('#the_answer').val(),
+                anonymous: now_anonymous
+            },
+            type : 'POST',
+            success : function( data ){
+                if (data.code == 'success'){
+                    window.location.reload(true);
+                }
+            }
+        });
+        // End AJAX	
+    });
+});

@@ -16,10 +16,10 @@
             <a class="nav-link" href="{% url 'dashboard_page' %}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'search_handler' %}">Search</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="{% url 'view_all_categories' %}">All Categories</a>
           </li>
           {% if request.user.id %}
           <li class="nav-item dropdown">        

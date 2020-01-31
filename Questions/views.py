@@ -382,3 +382,18 @@ def AjaxHandler(request):
         data['code'] = 'error'
         data['message'] = 'No Action in Params'
     return JsonResponse(data)
+
+def SearchHandler(request):
+    passing_dictionary = {}
+    if 'q' in request.GET and request.GET['q'] != "":
+        query = request.GET['q']
+        passing_dictionary ['query'] = query
+        questions_results = Questions.objects.filter(question__icontains=query)
+        passing_dictionary ['questions_results'] = questions_results
+        
+        answers_results = Answers.objects.filter(answer__icontains=query)
+        passing_dictionary ['answers_results'] = answers_results
+        
+    else:
+        passing_dictionary['searchNotDone'] = True
+    return render( request, 'core/template-search.html', passing_dictionary)
