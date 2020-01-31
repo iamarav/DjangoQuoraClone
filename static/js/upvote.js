@@ -44,6 +44,17 @@ function do_upvote_ajax(type, id, element){
                         .text( data.data.upvotes );
                 //}
             }
+            else if(data.code == 'invalid_user'){
+                var wantToLogin = confirm ('You must login to upvote.\nClick OK to Login.', false);
+                if (wantToLogin){
+                    var login_url = window.location.protocol+"//"+window.location.hostname;
+                    if (window.location.port != "" && window.location.port != undefined){
+                        login_url += ":"+window.location.port;
+                    }
+                    login_url += '/user/login';
+                    window.location.href = login_url;
+                }
+            }
         }
     });	
 }

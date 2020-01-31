@@ -196,94 +196,101 @@ def ViewQuestion(request, question):
     # print(passing_dictionary)
     return render( request, 'core/template-view-question.html', passing_dictionary)
 
-@login_required( login_url= LOGIN_URL)
+#@login_required( login_url= LOGIN_URL)
 def DoUpvote(request):
     outputJsonDict = {}
-    if 'type' in request.GET and request.GET['type'] != "":
-        up_type = request.GET['type'].lower()
-        if 'id' not in request.GET or request.GET['type'] == "" or request.GET['id'] == '':
-            outputJsonDict['code'] = 'error'
-            outputJsonDict['action'] = 'upvote'
-            outputJsonDict['message'] = 'No ID received. Try Again'
-            outputJsonDict['data'] = {}
-            return JsonResponse(outputJsonDict)
-        
-        upvote_id = int(request.GET['id'])
-        if up_type == "question":
-            current_user = request.user.id
-            question_object = get_object_or_404(Questions, id=upvote_id)
-            upvote = question_object.upvote
-            upvoters_list = question_object.upvoters.split(',')
-
-            if str(current_user) in upvoters_list:
-                upvote -= 1
-                question_object.upvote = upvote
-                
-                upvoters_list.remove( str(current_user) )
-                question_object.upvoters =  ','.join(upvoters_list)
-                
-                question_object.save()
-                
-                outputJsonDict['code'] = 'success'
-                outputJsonDict['action'] = 'downvote'
-                outputJsonDict['message'] = 'Downvote Success'
-                outputJsonDict['data'] = { 'upvotes' : upvote }
-                return JsonResponse(outputJsonDict)
-            else:
-                upvote += 1
-                question_object.upvote = upvote
-                question_object.upvoters += str(current_user)+","
-                question_object.save()
-                outputJsonDict['code'] = 'success'
+    if request.user.id is not None:
+        if 'type' in request.GET and request.GET['type'] != "":
+            up_type = request.GET['type'].lower()
+            if 'id' not in request.GET or request.GET['type'] == "" or request.GET['id'] == '':
+                outputJsonDict['code'] = 'error'
                 outputJsonDict['action'] = 'upvote'
-                outputJsonDict['message'] = 'Upvote Success'
-                outputJsonDict['data'] = { 'upvotes' : upvote }
+                outputJsonDict['message'] = 'No ID received. Try Again'
+                outputJsonDict['data'] = {}
                 return JsonResponse(outputJsonDict)
+            
+            upvote_id = int(request.GET['id'])
+            if up_type == "question":
+                current_user = request.user.id
+                question_object = get_object_or_404(Questions, id=upvote_id)
+                upvote = question_object.upvote
+                upvoters_list = question_object.upvoters.split(',')
 
-        elif up_type == "answer":
-            answer_object = get_object_or_404(Answers, id=upvote_id)
-            current_user = request.user.id
+                if str(current_user) in upvoters_list:
+                    upvote -= 1
+                    question_object.upvote = upvote
+                    
+                    upvoters_list.remove( str(current_user) )
+                    question_object.upvoters =  ','.join(upvoters_list)
+                    
+                    question_object.save()
+                    
+                    outputJsonDict['code'] = 'success'
+                    outputJsonDict['action'] = 'downvote'
+                    outputJsonDict['message'] = 'Downvote Success'
+                    outputJsonDict['data'] = { 'upvotes' : upvote }
+                    return JsonResponse(outputJsonDict)
+                else:
+                    upvote += 1
+                    question_object.upvote = upvote
+                    question_object.upvoters += str(current_user)+","
+                    question_object.save()
+                    outputJsonDict['code'] = 'success'
+                    outputJsonDict['action'] = 'upvote'
+                    outputJsonDict['message'] = 'Upvote Success'
+                    outputJsonDict['data'] = { 'upvotes' : upvote }
+                    return JsonResponse(outputJsonDict)
 
-            upvote = answer_object.upvote
-            upvoters_list = answer_object.upvoters.split(',')
+            elif up_type == "answer":
+                answer_object = get_object_or_404(Answers, id=upvote_id)
+                current_user = request.user.id
 
-            if str(current_user) in upvoters_list:
-                upvote -= 1
-                answer_object.upvote = upvote
-                
-                upvoters_list.remove( str(current_user) )
-                answer_object.upvoters =  ','.join(upvoters_list)
-                
-                answer_object.save()
-                
-                outputJsonDict['code'] = 'success'
-                outputJsonDict['action'] = 'downvote'
-                outputJsonDict['message'] = 'Downvote Success'
-                outputJsonDict['data'] = { 'upvotes' : upvote }
-                return JsonResponse(outputJsonDict)
-                
+                upvote = answer_object.upvote
+                upvoters_list = answer_object.upvoters.split(',')
+
+                if str(current_user) in upvoters_list:
+                    upvote -= 1
+                    answer_object.upvote = upvote
+                    
+                    upvoters_list.remove( str(current_user) )
+                    answer_object.upvoters =  ','.join(upvoters_list)
+                    
+                    answer_object.save()
+                    
+                    outputJsonDict['code'] = 'success'
+                    outputJsonDict['action'] = 'downvote'
+                    outputJsonDict['message'] = 'Downvote Success'
+                    outputJsonDict['data'] = { 'upvotes' : upvote }
+                    return JsonResponse(outputJsonDict)
+                    
+                else:
+                    upvote += 1
+                    answer_object.upvote = upvote
+                    answer_object.upvoters += str(current_user)+","
+                    answer_object.save()
+                    outputJsonDict['code'] = 'success'
+                    outputJsonDict['action'] = 'upvote'
+                    outputJsonDict['message'] = 'Upvote Success'
+                    outputJsonDict['data'] = { 'upvotes' : upvote }
+                    return JsonResponse(outputJsonDict)
+
             else:
-                upvote += 1
-                answer_object.upvote = upvote
-                answer_object.upvoters += str(current_user)+","
-                answer_object.save()
-                outputJsonDict['code'] = 'success'
+                outputJsonDict['code'] = 'error'
                 outputJsonDict['action'] = 'upvote'
-                outputJsonDict['message'] = 'Upvote Success'
-                outputJsonDict['data'] = { 'upvotes' : upvote }
+                outputJsonDict['message'] = 'Invalid Type. Try Again.'
+                outputJsonDict['data'] = {}
                 return JsonResponse(outputJsonDict)
 
         else:
             outputJsonDict['code'] = 'error'
             outputJsonDict['action'] = 'upvote'
-            outputJsonDict['message'] = 'Invalid Type. Try Again.'
+            outputJsonDict['message'] = 'Invalid or No Params. Try Again.'
             outputJsonDict['data'] = {}
             return JsonResponse(outputJsonDict)
-
     else:
-        outputJsonDict['code'] = 'error'
+        outputJsonDict['code'] = 'invalid_user'
         outputJsonDict['action'] = 'upvote'
-        outputJsonDict['message'] = 'Invalid or No Params. Try Again.'
+        outputJsonDict['message'] = 'Invalid User'
         outputJsonDict['data'] = {}
         return JsonResponse(outputJsonDict)
 
