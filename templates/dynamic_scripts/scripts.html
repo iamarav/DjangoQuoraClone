@@ -29,6 +29,10 @@ function editAnswer( ansId, anonymous = false ){
     jQuery('#modal_text').text('Editing Answer');
     jQuery("#editAnswer").modal();
 }
+
+function chooseBestAnswer( ansId ) {
+    alert(ansId+' is the best answer')
+}
 jQuery(document).ready(function(){
     jQuery('#editAnsWithAjax').click(function(){
         var ajax_url = window.location.protocol+"//"+window.location.hostname;

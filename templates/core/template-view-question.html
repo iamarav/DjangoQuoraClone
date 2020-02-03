@@ -53,14 +53,20 @@
         {% for answer in answers %}
             {% with answer.id as answer_id %}
             <div class="single_answer">
+              {% if answer.isBestAnswer %}
               <span class="best-answer"><span class="fa fa-check text-success"></span></span>
+              {% endif %}
                 <span id="answer_{{ answer_id }}" class="answers answer q_ans">{{ answer.answer }}</span>
                 <br>
                 <small>&nbsp;&nbsp;by {% if answer.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a>{% endif %} on {{ answer.time }}</small>
                 {% if request.user.username == answer.author.username %}
                 <button type="button" class="btn btn-warning btn-sm" onclick="editAnswer('{{ answer_id }}', {% if answer.anonymous == True %}true{% endif %})" >Edit</button>
                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('answer', '{{ answer_id }}')" >Delete</button>           
-            {% endif %}
+                {% endif %}
+                
+                {% if request.user.username == question.author.username %}
+                <button type="button" class="btn btn-success btn-sm" onclick="chooseBestAnswer( '{{ answer_id }}')" >Best Answer</button>           
+                {% endif %}
             <br>
             &nbsp;&nbsp;<small id="answer_upvotes_{{ answer_id }}" class="btn {% if answer_id in upvoted_answers %}btn-success{% else %}btn-primary{% endif %} btn-sm" style="padding: 5px;" onclick="do_upvote_ajax('answer', '{{ answer.id }}', this)" ><span class="upvote_number">{{ answer.upvote }}</span> upvote{% if answer.upvote > 1 %}s{% endif %} &uArr;</small>
             <hr>
