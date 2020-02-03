@@ -54,7 +54,7 @@
             {% with answer.id as answer_id %}
             <div class="single_answer">
               {% if answer.isBestAnswer %}
-              <span class="best-answer"><span class="fa fa-check text-success"></span></span>
+              <span class="best-answer"><span class="fa fa-check text-success" title="Best Answer. Selected by the question Author."></span></span>
               {% endif %}
                 <span id="answer_{{ answer_id }}" class="answers answer q_ans">{{ answer.answer }}</span>
                 <br>
@@ -64,7 +64,7 @@
                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('answer', '{{ answer_id }}')" >Delete</button>           
                 {% endif %}
                 
-                {% if request.user.username == question.author.username %}
+                {% if request.user.username == question.author.username and not answer.isBestAnswer %}
                 <button type="button" class="btn btn-success btn-sm" onclick="chooseBestAnswer( '{{ answer_id }}')" >Best Answer</button>           
                 {% endif %}
             <br>

@@ -54,6 +54,7 @@ class Answers(models.Model):
     upvote = models.IntegerField(default=0)
     upvoters = models.TextField(default="", null=True, blank=True)
     anonymous = models.BooleanField (default= False)
+    isBestAnswer = models.BooleanField (default= False)
 
     def __str__(self):
         return str(self.id)+": "+self.answer

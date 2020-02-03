@@ -8,6 +8,7 @@ urlpatterns = [
     #path('upvote/', views.DoUpvote, name='upvote'),
     url(r'^ajax$', views.AjaxHandler, name='ajax_handler'),
     url(r'^search$', views.SearchHandler, name='search_handler'),
+    url(r'^bestAnswer$', views.BestAnswerHandler, name='best_answer_handler'),
     path('upvote', views.DoUpvote, name='upvote'),
     path('checkslug', views.CheckSlugWithAjax, name='checkslug'),
     path('addCategory', views.AddCategoryWithAjax, name='checkslug'),

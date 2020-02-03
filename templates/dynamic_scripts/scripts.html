@@ -31,7 +31,13 @@ function editAnswer( ansId, anonymous = false ){
 }
 
 function chooseBestAnswer( ansId ) {
-    alert(ansId+' is the best answer')
+    // alert(ansId+' is the best answer')
+    var url = window.location.protocol+"//"+window.location.hostname;
+        if (window.location.port != "" && window.location.port != undefined){
+            url += ":"+window.location.port;
+        }
+
+    window.location.href = url+"/bestAnswer?id="+ansId;
 }
 jQuery(document).ready(function(){
     jQuery('#editAnsWithAjax').click(function(){
