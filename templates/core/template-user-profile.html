@@ -42,7 +42,7 @@
 {% if questions_asked %}
     <p>Questions Asked:</p>
     {% for question in questions_asked %}
-        {% with question.upvote as upvotes %}
+        {% with question.upvote as upvotes %} 
         <h3>&#8227; <a href="{% url 'view_question' question.slug %}" class="text-dark" >{{ question.question }}</a> <small class="ques_upvotes btn btn-sm bg-dark text-light">{{ upvotes }} upvote{% if upvotes > 1 %}s{% endif %}</small></h3>
         {% endwith %}
     {% endfor %}
