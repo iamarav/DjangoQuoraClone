@@ -40,7 +40,13 @@
             </div>
         </form>
       </div>
-      {% if not request.user.id %}<a href="{% url 'signup_page' %}" class="btn btn-success btn-lg">Signup</a>{% endif %}
+      {% if not request.user.id %}
+      <br>
+        <div class="q_actions">
+          <a href="{% url 'signup_page' %}" class="btn btn-success btn-lg">Signup</a>
+          <a href="{% url 'login_page' %}" class="btn btn-primary btn-lg">Login</a>
+        </div>
+      {% endif %}
     </header>
 
     <!-- Page Features -->
