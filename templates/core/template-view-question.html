@@ -53,6 +53,7 @@
         {% for answer in answers %}
             {% with answer.id as answer_id %}
             <div class="single_answer">
+              <span class="best-answer"><span class="fa fa-check text-success"></span></span>
                 <span id="answer_{{ answer_id }}" class="answers answer q_ans">{{ answer.answer }}</span>
                 <br>
                 <small>&nbsp;&nbsp;by {% if answer.anonymous == True %}Anonymous{% else %}<a href="{% url 'profile_page' answer.author.username %}">{{ answer.author.username }}</a>{% endif %} on {{ answer.time }}</small>
