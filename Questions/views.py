@@ -401,6 +401,8 @@ def SearchHandler(request):
 
 def BestAnswerHandler(request):
     if request.method == 'GET' and 'id' in request.GET:
+        flag = False
+
         ansId = request.GET['id']
         ans_obj = get_object_or_404(Answers, id=ansId)
         ques_obj = Questions.objects.get(id = ans_obj.question.id)
@@ -408,14 +410,18 @@ def BestAnswerHandler(request):
         if ques_obj.author.id != request.user.id:
             raise Http404()
 
+        if ans_obj.isBestAnswer:
+            flag = True
+
         all_ans = Answers.objects.filter(question = ques_obj)
-        print(all_ans)
         for temp_answer in all_ans:
             if temp_answer.isBestAnswer:
                 temp_answer.isBestAnswer = False
                 temp_answer.save()
-        ans_obj.isBestAnswer = True
-        ans_obj.save()
+
+        if not flag:
+            ans_obj.isBestAnswer = True
+            ans_obj.save()
 
         return HttpResponseRedirect( '/'+ques_obj.slug )
     raise Http404()

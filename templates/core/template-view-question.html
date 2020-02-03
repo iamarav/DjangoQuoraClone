@@ -52,7 +52,7 @@
         <h4 class="font-weight-bold">Answers &raquo;</h4>
         {% for answer in answers %}
             {% with answer.id as answer_id %}
-            <div class="single_answer">
+            <div class="single_answer {% if answer.isBestAnswer %}border rounded border-success{% endif %}" {% if answer.isBestAnswer %} style="padding-bottom: 10px;" {% endif %}>
               {% if answer.isBestAnswer %}
               <span class="best-answer"><span class="fa fa-check text-success" title="Best Answer. Selected by the question Author."></span></span>
               {% endif %}
@@ -64,13 +64,18 @@
                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('answer', '{{ answer_id }}')" >Delete</button>           
                 {% endif %}
                 
-                {% if request.user.username == question.author.username and not answer.isBestAnswer %}
+                {% if request.user.username == question.author.username %}
+                  {% if not answer.isBestAnswer %}
                 <button type="button" class="btn btn-success btn-sm" onclick="chooseBestAnswer( '{{ answer_id }}')" >Best Answer</button>           
+                  {% else %}
+                  <button type="button" class="btn btn-danger btn-sm" onclick="chooseBestAnswer( '{{ answer_id }}')" >Not Best Answer</button>           
+                  {% endif %}
                 {% endif %}
             <br>
             &nbsp;&nbsp;<small id="answer_upvotes_{{ answer_id }}" class="btn {% if answer_id in upvoted_answers %}btn-success{% else %}btn-primary{% endif %} btn-sm" style="padding: 5px;" onclick="do_upvote_ajax('answer', '{{ answer.id }}', this)" ><span class="upvote_number">{{ answer.upvote }}</span> upvote{% if answer.upvote > 1 %}s{% endif %} &uArr;</small>
+            <br>
+          </div>
             <hr>
-            </div>
             {% endwith %}
         {% endfor %}
     </div>
